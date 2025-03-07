@@ -1,4 +1,4 @@
-package com.player.back_player.model;
+package com.player.back_player.user.controller.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,6 +1,6 @@
-package com.player.back_player.repository;
+package com.player.back_player.user.controller.repository;
 
-import com.player.back_player.model.User;
+import com.player.back_player.user.controller.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
