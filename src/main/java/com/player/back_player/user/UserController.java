@@ -1,4 +1,4 @@
-package com.player.back_player.user.controller;
+package com.player.back_player.user;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

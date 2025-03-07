@@ -1,7 +1,6 @@
-package com.player.back_player.user.controller.service;
+package com.player.back_player.user;
 
 import com.player.back_player.user.controller.model.User;
-import com.player.back_player.user.controller.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

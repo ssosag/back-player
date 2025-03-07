@@ -1,4 +1,4 @@
-package com.player.back_player.user.controller.repository;
+package com.player.back_player.user;
 
 import com.player.back_player.user.controller.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
