@@ -26,7 +26,7 @@ public class ImageController {
 
     @PostMapping
     public ResponseEntity<?> uploadImage(
-            @RequestParam("image")MultipartFile image
+            @RequestParam("image") MultipartFile image
             ) {
         if (image.isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Por favor sube un archivo válido.");
@@ -36,7 +36,7 @@ public class ImageController {
 
     @GetMapping("/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        File file = new File("uploads/" + filename);
+        File file = new File("images/" + filename);
         Resource resource = new FileSystemResource(file);
 
         return ResponseEntity.ok()

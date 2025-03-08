@@ -21,7 +21,7 @@ public class ImageService {
     public String uploadImage( MultipartFile image ) {
         try {
             String imageName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-            Path path = Paths.get("uploads/" + imageName);
+            Path path = Paths.get("images/" + imageName);
             Files.createDirectories(path.getParent());
             Files.write(path, image.getBytes());
 
@@ -38,7 +38,7 @@ public class ImageService {
             return;
         }
 
-        Path path = Paths.get("uploads/" + imageUrl.split("/")[imageUrl.split("/").length - 1]);
+        Path path = Paths.get("images/" + imageUrl.split("/")[imageUrl.split("/").length - 1]);
 
         try {
             Files.deleteIfExists(path);
