@@ -4,10 +4,14 @@ import com.player.back_player.song.dtos.CreateSongDto;
 import com.player.back_player.song.dtos.GetSongFiltersDto;
 import com.player.back_player.song.model.Song;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @RestController
@@ -43,8 +47,20 @@ public class SongController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadSong(@RequestParam MultipartFile song) {
+    public ResponseEntity<?> uploadSong(@RequestParam("song") MultipartFile song) {
         return ResponseEntity.ok(songService.uploadSong(song));
+    }
+
+    @GetMapping("/{filename:.+}")
+    public ResponseEntity<?> serveFile(@PathVariable String filename) {
+
+        File file = new File("songs/" + filename);
+        Resource resource = new FileSystemResource(file);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE,  "audio/mpeg")
+                .body(resource);
+
     }
 
 }

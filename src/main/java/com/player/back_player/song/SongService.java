@@ -70,7 +70,7 @@ public class SongService {
     public String uploadSong(MultipartFile song) {
         try {
             String imageName = System.currentTimeMillis() + "_" + song.getOriginalFilename();
-            Path path = Paths.get("uploads/" + imageName);
+            Path path = Paths.get("songs/" + imageName);
             Files.createDirectories(path.getParent());
             Files.write(path, song.getBytes());
 

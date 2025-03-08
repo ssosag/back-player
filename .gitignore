@@ -5,6 +5,8 @@ target/
 !**/src/test/**/target/
 ./images
 ./uploads
+./songs
+
 ### STS ###
 .apt_generated
 .classpath
