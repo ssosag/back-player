@@ -1,57 +1,120 @@
-# Backend - Music Player API
+## 🎵 Back Player - API REST
 
-Este proyecto es un backend para una API de gestión de canciones desarrollado con Spring Boot y MongoDB.
+_Back Player_ es una API REST en **Spring Boot** para gestionar y reproducir canciones, utilizando **MongoDB** como base de datos.  
 
-## Características
-- Creación y búsqueda de canciones.
-- Subida y almacenamiento de archivos de audio.
-- Exposición de endpoints REST para interactuar con el frontend.
+### 🚀 Instalación y Ejecución  
 
-## Tecnologías Utilizadas
-- **Java 21**
-- **Spring Boot 3.4.3**
-- **MongoDB** como base de datos NoSQL.
-- **Spring Security Crypto** para manejo de contraseñas.
-- **Lombok** para reducir el código boilerplate.
+#### 1️⃣ **Clonar el repositorio**  
+```sh
+git clone https://github.com/ssosag/back-player.git
+cd back-player
+```
 
-## Instalación y Configuración
+#### 2️⃣ **Configurar la base de datos**  
+Asegúrate de tener **MongoDB** instalado y ejecutándose en `localhost:27017`.  
 
-### Prerrequisitos
-- Tener instalado [Java 21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html).
-- Tener [Maven](https://maven.apache.org/) instalado.
-- Tener un servidor de **MongoDB** corriendo.
+#### 3️⃣ **Compilar el proyecto**  
+```sh
+mvn clean install
+```
 
-### Pasos para ejecutar
+#### 4️⃣ **Ejecutar la aplicación**  
+Puedes iniciar la aplicación de dos maneras:
 
-1. Clona este repositorio:
-   ```sh
-   git clone https://github.com/tu_usuario/back-player.git
-   cd back-player
-   ```
-2. Configura MongoDB en el archivo `application.properties`:
-   ```properties
-   spring.data.mongodb.uri=mongodb://localhost:27017/tu_base_de_datos
-   ```
-3. Compila y ejecuta el backend:
-   ```sh
-   mvn spring-boot:run
-   ```
+- **Con Maven**  
+  ```sh
+  mvn spring-boot:run
+  ```
 
-El servidor se ejecutará en `http://localhost:8080`.
+- **Como un JAR independiente**  
+  ```sh
+  java -jar target/back-player-0.0.1-SNAPSHOT.jar
+  ```
 
-## Endpoints Disponibles
+La API estará disponible en:  
+🔗 `http://localhost:8080/api/song`
 
-### Canciones
+---
 
-| Método | Endpoint | Descripción |
-|--------|---------|-------------|
-| `GET` | `/api/song` | Obtiene todas las canciones con filtros opcionales |
-| `POST` | `/api/song` | Crea una nueva canción |
-| `POST` | `/api/song/upload` | Sube un archivo de audio |
-| `GET` | `/api/song/{filename}` | Obtiene un archivo de audio específico |
+## 📌 Endpoints  
 
-## Notas Adicionales
-- Se ha habilitado **CORS** para permitir solicitudes desde cualquier origen.
-- La subida de archivos almacena las canciones en la carpeta `songs/` dentro del proyecto.
+### 🔍 **Buscar canciones**  
+```http
+GET /api/song
+```
+**Parámetros opcionales:**  
+- `title`: Filtra por título  
+- `username`: Filtra por usuario  
+- `size`: Filtra por tamaño  
+- `fileName`: Filtra por nombre de archivo  
 
+Ejemplo en **Postman** o **cURL**:
+```sh
+curl -X GET "http://localhost:8080/api/song?title=MySong"
+```
 
+---
+
+### 🎵 **Subir una canción**  
+```http
+POST /api/song/upload
+```
+**Body:**  
+- `song` (archivo `multipart/form-data`)  
+
+Ejemplo en **Postman**:
+1. En **Body**, selecciona `form-data`.  
+2. Agrega la clave `"song"` y sube un archivo de audio.  
+
+---
+
+### ➕ **Crear una canción (sin archivo)**  
+```http
+POST /api/song
+```
+**Body (JSON):**
+```json
+{
+  "title": "Mi Cancion",
+  "username": "usuario123",
+  "size": "5MB",
+  "fileName": "mi_cancion.mp3"
+}
+```
+Ejemplo en **cURL**:
+```sh
+curl -X POST "http://localhost:8080/api/song" -H "Content-Type: application/json" -d '{"title": "Mi Cancion", "username": "usuario123", "size": "5MB", "fileName": "mi_cancion.mp3"}'
+```
+
+---
+
+### 💽 **Descargar una canción**  
+```http
+GET /api/song/{filename}
+```
+Ejemplo:
+```sh
+curl -O http://localhost:8080/api/song/mi_cancion.mp3
+```
+
+---
+
+## 🛠 Tecnologías  
+
+- **Spring Boot 3.4.3**  
+- **MongoDB**  
+- **Maven**  
+- **Lombok**  
+- **Spring Security (para cifrado con BCrypt)**  
+
+---
+
+## 📝 Notas  
+Si necesitas configurar **CORS**, está habilitado con:  
+```java
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+```
+
+Si tienes problemas con MongoDB, revisa que esté corriendo en `localhost:27017`.
+
+---
