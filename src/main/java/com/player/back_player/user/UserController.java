@@ -32,9 +32,9 @@ public class UserController {
         return ResponseEntity.ok( userService.getUserById(id) );
     }
 
-    @PatchMapping
-    public ResponseEntity<UpdatedUserDto> updateUser(@RequestBody UpdateUserDto user){
-        return ResponseEntity.ok( userService.update( user ) );
+    @PatchMapping("/{id}")
+    public ResponseEntity<UpdatedUserDto> updateUser(@RequestBody UpdateUserDto user, @PathVariable String id){
+        return ResponseEntity.ok( userService.update( user, id ) );
     }
 
 }

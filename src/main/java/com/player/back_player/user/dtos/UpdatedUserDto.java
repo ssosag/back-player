@@ -13,7 +13,7 @@ public class UpdatedUserDto {
 
     private String username;
     private String email;
-    private String profileImgUrl;
+    private String imageUrl;
     private String bannerUrl;
 
 }

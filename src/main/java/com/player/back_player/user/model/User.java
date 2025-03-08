@@ -30,6 +30,8 @@ public class User {
     private String bannerUrl;
     @Field("friends")
     private List<Friend> friends;
+    @Field("topSongs")
+    private List<Song> topSongs;
 
     public User(String username, String email, String password) {
         this.username = username;

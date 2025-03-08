@@ -53,15 +53,15 @@ public class UserService {
         return new GetUserDto(user.getUsername(), user.getEmail(), user.getProfileImgUrl(), user.getBannerUrl());
     }
 
-    public UpdatedUserDto update (UpdateUserDto updateUserDto ){
-        User user = userRepository.findByUsername(updateUserDto.getUsername()).orElse(null);
+    public UpdatedUserDto update (UpdateUserDto updateUserDto, String id ){
+        User user = userRepository.findById(id).orElse(null);
         if ( user == null ){
             throw new RuntimeException("User not found");
         }
 
-        if ( updateUserDto.getProfileImgUrl() != null ){
+        if ( updateUserDto.getImageUrl() != null ){
             imageService.deleteImage(user.getProfileImgUrl());
-            user.setProfileImgUrl(updateUserDto.getProfileImgUrl());
+            user.setProfileImgUrl(updateUserDto.getImageUrl());
         }
 
         if ( updateUserDto.getPassword() != null ){
