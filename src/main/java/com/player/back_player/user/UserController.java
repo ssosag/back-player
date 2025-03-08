@@ -1,12 +1,29 @@
 package com.player.back_player.user;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.player.back_player.user.dtos.CreateUserDto;
+import com.player.back_player.user.model.User;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-@RestController( "/user" )
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/user")
 public class UserController {
-    @GetMapping()
-    public String getUser(){
-        return "User";
+
+    private final UserService userService;
+
+    @Autowired
+    public UserController ( UserService userService ) {
+        this.userService = userService;
     }
+
+    @GetMapping
+    public ResponseEntity<List<User> > getAllUsers(){
+        return ResponseEntity.ok( userService.getAllUsers() );
+    }
+
 }
