@@ -1,5 +1,9 @@
 package com.player.back_player.user;
 
+import com.player.back_player.image.ImageService;
+import com.player.back_player.user.dtos.GetUserDto;
+import com.player.back_player.user.dtos.UpdateUserDto;
+import com.player.back_player.user.dtos.UpdatedUserDto;
 import com.player.back_player.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,10 +15,12 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final ImageService imageService;
 
     @Autowired
-    public UserService( UserRepository userRepository ) {
+    public UserService( UserRepository userRepository, ImageService imageService ) {
         this.userRepository = userRepository;
+        this.imageService = imageService;
     }
 
     public User save(User user){
@@ -37,6 +43,38 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
+    }
+
+    public GetUserDto getUserById( String id ){
+        User user = userRepository.findById(id).orElse(null);
+        if ( user == null ){
+            throw new RuntimeException("User not found");
+        }
+        return new GetUserDto(user.getUsername(), user.getEmail(), user.getProfileImgUrl(), user.getBannerUrl());
+    }
+
+    public UpdatedUserDto update (UpdateUserDto updateUserDto ){
+        User user = userRepository.findByUsername(updateUserDto.getUsername()).orElse(null);
+        if ( user == null ){
+            throw new RuntimeException("User not found");
+        }
+
+        if ( updateUserDto.getProfileImgUrl() != null ){
+            imageService.deleteImage(user.getProfileImgUrl());
+            user.setProfileImgUrl(updateUserDto.getProfileImgUrl());
+        }
+
+        if ( updateUserDto.getPassword() != null ){
+            user.setPassword(passwordEncoder.encode(updateUserDto.getPassword()));
+        }
+
+        if ( updateUserDto.getBannerUrl() != null ){
+            imageService.deleteImage(user.getBannerUrl());
+            user.setBannerUrl(updateUserDto.getBannerUrl());
+        }
+
+        userRepository.save(user);
+        return new UpdatedUserDto(user.getUsername(), user.getEmail(), user.getProfileImgUrl(), user.getBannerUrl());
     }
 
 }
